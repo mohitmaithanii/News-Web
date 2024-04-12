@@ -1,17 +1,17 @@
 import NewsItem from "../components/NewsItem";
 import { useEffect, useState } from "react";
 
-const NewsBoard = () => {
+const NewsBoard = ({ category }) => {
 	const [articles, setArticles] = useState([]);
 
 	useEffect(() => {
-		const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
+		const url = `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=${
 			import.meta.env.VITE_API_KEY
 		}`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => setArticles(data.articles));
-	}, []);
+	}, [category]);
 	return (
 		<>
 			<h2 className="mt-2 text-2xl font-bold text-center">

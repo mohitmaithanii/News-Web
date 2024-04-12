@@ -3,20 +3,28 @@ import { Menu, X, Newspaper } from "lucide-react";
 
 const menuItems = [
 	{
-		name: "Home",
+		name: "Technology",
 		href: "#",
 	},
 	{
-		name: "About",
+		name: "Business",
 		href: "#",
 	},
 	{
-		name: "Contact",
+		name: "Health",
+		href: "#",
+	},
+	{
+		name: "Sports",
+		href: "#",
+	},
+	{
+		name: "Entertainment",
 		href: "#",
 	},
 ];
 
-export default function Navbar() {
+export default function Navbar({ setCategory }) {
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
 	const toggleMenu = () => {
@@ -24,19 +32,22 @@ export default function Navbar() {
 	};
 
 	return (
-		<div className="relative w-full bg-red-500">
+		<div className="relative w-full bg-red-600">
 			<div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl sm:px-6 lg:px-8">
-				<div className="inline-flex items-center space-x-2 text-white">
-					<span>
-						<Newspaper />
-					</span>
-					<span className="font-bold">News.Web</span>
-				</div>
-				<div className="items-start hidden grow lg:flex">
+				<a href="/">
+					<div className="inline-flex items-center space-x-2 text-white">
+						<span>
+							<Newspaper />
+						</span>
+						<span className="font-bold">News.Web</span>
+					</div>
+				</a>
+				<div className="items-start hidden lg:flex">
 					<ul className="inline-flex ml-12 space-x-8">
 						{menuItems.map((item) => (
 							<li key={item.name}>
 								<a
+									onClick={() => setCategory(item.name)}
 									href={item.href}
 									className="text-sm font-semibold text-white hover:text-gray-900"
 								>
@@ -55,12 +66,14 @@ export default function Navbar() {
 						<div className="bg-white divide-y-2 rounded-lg shadow-lg divide-gray-50 ring-1 ring-black ring-opacity-5">
 							<div className="px-5 pt-5 pb-6">
 								<div className="flex items-center justify-between">
-									<div className="inline-flex items-center space-x-2">
-										<span>
-											<Newspaper className="text-red-400" />
-										</span>
-										<span className="font-bold">News.Web</span>
-									</div>
+									<a href="/">
+										<div className="inline-flex items-center space-x-2">
+											<span>
+												<Newspaper className="text-red-400" />
+											</span>
+											<span className="font-bold">News.Web</span>
+										</div>
+									</a>
 									<div className="-mr-2">
 										<button
 											type="button"
@@ -76,6 +89,7 @@ export default function Navbar() {
 									<nav className="grid gap-y-4">
 										{menuItems.map((item) => (
 											<a
+												onClick={() => setCategory(item.name)}
 												key={item.name}
 												href={item.href}
 												className="flex items-center p-3 -m-3 text-sm font-semibold rounded-md hover:bg-gray-50"
