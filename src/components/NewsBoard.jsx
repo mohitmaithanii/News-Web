@@ -12,14 +12,16 @@ const NewsBoard = ({ category }) => {
 			.then((response) => response.json())
 			.then((data) => setArticles(data.articles));
 	}, [category]);
+
 	return (
-		<>
-			<h2 className="mt-2 text-2xl font-bold text-center">
-				Latest{" "}
-				<span className="px-2 text-white bg-red-500 rounded-lg ">News</span>
-			</h2>
-			{articles.map((news, index) => {
-				return (
+		<div className="container px-2 py-8 mx-auto sm:px-6 lg:px-8">
+			<div className="flex items-center justify-center ">
+				<h1 className="mb-2 text-3xl font-bold">
+					LATEST <span className="text-red-600">NEWS</span>{" "}
+				</h1>
+			</div>
+			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+				{articles.map((news, index) => (
 					<NewsItem
 						key={index}
 						title={news.title}
@@ -27,9 +29,9 @@ const NewsBoard = ({ category }) => {
 						src={news.urlToImage}
 						url={news.url}
 					/>
-				);
-			})}
-		</>
+				))}
+			</div>
+		</div>
 	);
 };
 
