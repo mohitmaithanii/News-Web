@@ -7,7 +7,8 @@ const NewsBoard = ({ category }) => {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		const url = `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=${"70a23b3eebba459fa7cca01944982be8"}`;
+		const url = `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=70a23b3eebba459fa7cca01944982be8`;
+
 		fetch(url)
 			.then((response) => {
 				if (!response.ok) {
