@@ -1,7 +1,7 @@
 import NewsItem from "../components/NewsItem";
 import { useEffect, useState } from "react";
 
-const API_URL = `https://newsapi.org/v2/top-headlines?country=in&category=`;
+const API_URL = `https://newsapi.org/v2/top-headlines?country=us&apiKey=`;
 
 const NewsBoard = ({ category }) => {
 	const [articles, setArticles] = useState([]);
@@ -11,7 +11,7 @@ const NewsBoard = ({ category }) => {
 	const fetchNews = async () => {
 		try {
 			const response = await fetch(
-				`${API_URL}${category}&apiKey=${import.meta.env.VITE_API_KEY}`
+				`${API_URL}${import.meta.env.VITE_API_KEY}&category=${category}`
 			);
 			if (!response.ok) {
 				throw new Error(`Failed to fetch data: ${response.status}`);
