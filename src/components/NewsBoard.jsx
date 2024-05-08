@@ -1,7 +1,8 @@
 import NewsItem from "../components/NewsItem";
 import { useEffect, useState } from "react";
 
-const API_URL = `https://newsapi.org/v2/top-headlines?country=us&apiKey=`;
+const API_URL = `https://newsapi.org/v2/top-headlines?country=in&apiKey=`;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const NewsBoard = ({ category }) => {
 	const [articles, setArticles] = useState([]);
@@ -10,17 +11,15 @@ const NewsBoard = ({ category }) => {
 
 	const fetchNews = async () => {
 		try {
-			const response = await fetch(
-				`${API_URL}${import.meta.env.VITE_API_KEY}&category=${category}`
-			);
+			const response = await fetch(`${API_URL}${API_KEY}&category=${category}`);
 			if (!response.ok) {
 				throw new Error(`Failed to fetch data: ${response.status}`);
 			}
 			const data = await response.json();
 			setArticles(data.articles);
-			setLoading(false);
 		} catch (error) {
 			setError(`Error fetching data: ${error.message}`);
+		} finally {
 			setLoading(false);
 		}
 	};
@@ -30,10 +29,8 @@ const NewsBoard = ({ category }) => {
 	}, [category]);
 
 	const renderLoading = () => (
-		<div>
-			<div className="flex items-center justify-center w-full h-screen gap-4">
-				<div className="flex items-center justify-center w-20 h-20 text-4xl text-red-600 border-8 border-gray-300 rounded-full animate-spin border-t-red-600"></div>
-			</div>
+		<div className="flex items-center justify-center w-full h-screen">
+			<div className="w-32 h-32 border-t-2 border-b-2 border-red-500 rounded-full animate-spin"></div>
 		</div>
 	);
 
