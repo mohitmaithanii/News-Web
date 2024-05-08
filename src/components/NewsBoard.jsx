@@ -1,42 +1,45 @@
 import NewsItem from "../components/NewsItem";
 import { useEffect, useState } from "react";
 
+const API_URL = `https://newsapi.org/v2/top-headlines?country=in&category=`;
+
 const NewsBoard = ({ category }) => {
 	const [articles, setArticles] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
-	useEffect(() => {
-		const url = `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=70a23b3eebba459fa7cca01944982be8`;
+	const fetchNews = async () => {
+		try {
+			const response = await fetch(
+				`${API_URL}${category}&apiKey=${import.meta.env.VITE_API_KEY}`
+			);
+			if (!response.ok) {
+				throw new Error(`Failed to fetch data: ${response.status}`);
+			}
+			const data = await response.json();
+			setArticles(data.articles);
+			setLoading(false);
+		} catch (error) {
+			setError(`Error fetching data: ${error.message}`);
+			setLoading(false);
+		}
+	};
 
-		fetch(url)
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error("Failed to fetch data");
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setArticles(data.articles);
-				setLoading(false);
-			})
-			.catch((error) => {
-				setError(error.message);
-				setLoading(false);
-			});
+	useEffect(() => {
+		fetchNews();
 	}, [category]);
 
-	if (loading)
-		return (
-			<div>
-				<div className="flex items-center justify-center w-full h-screen gap-4">
-					<div className="flex items-center justify-center w-20 h-20 text-4xl text-red-600 border-8 border-gray-300 rounded-full animate-spin border-t-red-600"></div>
-				</div>
+	const renderLoading = () => (
+		<div>
+			<div className="flex items-center justify-center w-full h-screen gap-4">
+				<div className="flex items-center justify-center w-20 h-20 text-4xl text-red-600 border-8 border-gray-300 rounded-full animate-spin border-t-red-600"></div>
 			</div>
-		);
-	if (error) return <div>Error: {error}</div>;
+		</div>
+	);
 
-	return (
+	const renderError = () => <div>Error: {error}</div>;
+
+	const renderNews = () => (
 		<div className="container px-2 py-8 mx-auto sm:px-6 lg:px-8">
 			<div className="flex items-center justify-center">
 				<h1 className="mb-2 text-3xl font-bold">
@@ -56,6 +59,10 @@ const NewsBoard = ({ category }) => {
 			</div>
 		</div>
 	);
+
+	if (loading) return renderLoading();
+	if (error) return renderError();
+	return renderNews();
 };
 
 export default NewsBoard;
